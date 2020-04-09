@@ -15,5 +15,8 @@
     "bugs": {
         "url": "https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/issues"
     },
-    "homepage": "https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723#readme"
+    "homepage": "https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723#readme",
+    "dependencies": {
+        "mime": "^1.4.0"
+    }
 }
