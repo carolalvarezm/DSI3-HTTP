@@ -115,15 +115,69 @@ fs.readFile("file.txt", "utf8", function(error, text) {
     * Lo siguiente que tenemos hace que cuando el método esté dentro de nuestro objeto *methods* le pasamos la ruta, y los objetos respond y request. ```methods[request.method](urlToPath(request.url), respond, request);```
     * Si no está el método implementado, respondemos con un código de estado 405 *Method not allowed*. ``` respond(405, "Method " + request.method + " not allowed.");```
     * Para obtener la ruta desde la url de la petición tenemos la función *urlToPath()* a la que le pasamos la url de la peticion:
-    ```javascript
-    function urlToPath(url) {
-    var path = require("url").parse(url).pathname;
-    return "." + decodeURIComponent(path);
-    }
+        ```javascript
+        function urlToPath(url) {
+        var path = require("url").parse(url).pathname;
+        return "." + decodeURIComponent(path);
+        }
 
+        ```
+        * Nos devolverá la url decodificada para poder utilizarla, además añadimos un *'.'* para hacerla relativa.
+* Para saber el tipo correcto a devolver en la cabecera podemos utilizar *mime* para ello instalamos el módulo con npm:
+    ```
+    npm install mime@1.4.0
     ```
 
 #### GET
+* El método GET nos returnará una lista de los ficheros cuando leamos un directorio y el contenido cuando leamos un fichero:
+```javascript
+methods.GET = function(path, respond) {
+  fs.stat(path, function(error, stats) {
+    if (error && error.code == "ENOENT")
+      respond(404, "File not found");
+    else if (error)
+      respond(500, error.toString());
+    else if (stats.isDirectory())
+      fs.readdir(path, function(error, files) {
+        if (error)
+          respond(500, error.toString());
+        else
+          respond(200, files.join("\n"));
+      });
+    else
+      respond(200, fs.createReadStream(path),
+              require("mime").lookup(path));
+  });
+};
+```
+* Si el fichero no existe devolvemos un código de error 404.
+```javascript
+    if (error && error.code == "ENOENT")
+      respond(404, "File not found");
+```
+* Para los errores que no esperemos returnamos un código de estado 500:
+```javascript
+    else if (error)
+      respond(500, error.toString());
+```
+* Si le hemos pasado como ruta un directorio nos devuelve la lista de directorios con la función de fs *readdir*:
+```javascript
+    else if (stats.isDirectory())
+      fs.readdir(path, function(error, files) {
+        if (error)
+          respond(500, error.toString());
+        else
+          respond(200, files.join("\n"));
+    });
+```
+![Ejemplo de GET con directorios]()
+* Si le hemos pasado un archivo creamos un stream de lectura y mostramos el contenido, además de devolver el código de estado 200.
+```javascript
+    else
+    respond(200, fs.createReadStream(path),
+        require("mime").lookup(path));
+```
+![Ejemplo de GET con ficheros]()
 #### DELETE
 #### PUT
 
