@@ -85,6 +85,43 @@ fs.readFile("file.txt", "utf8", function(error, text) {
 * Para navegación segura podemos usar otro módulo de node *https* que contiene su propia función request.
 
 ### Servidor de archivos simple
+* Si tratamos los archivos como recursos HTTP los métodos GET, PUT y DELETE pueden ser usados para leer, escribir y eliminar ficheros.
+* Como no queremos que haya acceso total a nuestro sistema de archivos interpretaremos que la ruta empieza en el directorio de trabajo del servidor, que será el directorio en el que es lanzado.
+* Vamos a contruir nuestro servidor de archivos paso a paso usando un objeto llamado *methods* donde guardaremos las funciones que manejan los métodos http:
+    ```javascript
+    var http = require("http"), fs = require("fs");
+
+    var methods = Object.create(null);
+
+    http.createServer(function(request, response) {
+    function respond(code, body, type) {
+        if (!type) type = "text/plain";
+        response.writeHead(code, {"Content-Type": type});
+        if (body && body.pipe)
+        body.pipe(response);
+        else
+        response.end(body);
+    }
+    if (request.method in methods)
+        methods[request.method](urlToPath(request.url),
+                                respond, request);
+    else
+        respond(405, "Method " + request.method +
+                " not allowed.");
+    }).listen(8000);
+    ```
+    * La función *respond* se ejecuta cada vez que se hace una petición al servidor. Esta función manejará los métodos y actuará como una callback para cerrar la petición.
+    * Si el valor pasado a body es un stream de lectura usaremos pipe para escribirlo, si no se lo pasamos a la respuesta.
+    * Lo siguiente que tenemos hace que cuando el método esté dentro de nuestro objeto *methods* le pasamos la ruta, y los objetos respond y request. ```methods[request.method](urlToPath(request.url), respond, request);```
+    * Si no está el método implementado, respondemos con un código de estado 405 *Method not allowed*. ``` respond(405, "Method " + request.method + " not allowed.");```
+    * Para obtener la ruta desde la url de la petición tenemos la función *urlToPath()* a la que le pasamos la url de la peticion:
+    ```javascript
+    function urlToPath(url) {
+    var path = require("url").parse(url).pathname;
+    return "." + decodeURIComponent(path);
+    }
+
+    ```
 
 #### GET
 #### DELETE
