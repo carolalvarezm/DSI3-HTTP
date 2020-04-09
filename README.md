@@ -39,9 +39,53 @@ fs.readFile("file.txt", "utf8", function(error, text) {
 });
 ```
 ### Módulo HTTP
-
+* El módulo HTTP provee funcionalidades para desplegar servidores y hacer peticiones http.
+* Para lanzar un servidor http simple podemos ver el código de nuestro primer [ejemplo]():
+    ```javascript
+    var http = require("http");
+    var server = http.createServer(function(request, response) {
+    response.writeHead(200, {"Content-Type": "text/html"});
+    response.write("<h1>Hello!</h1><p>You asked for <code>" +
+                    request.url + "</code></p>");
+    response.end();
+    });
+    server.listen(8080);
+    ```
+    * En primer lugar cargamos el módulo http con el require ```var http = require("http");```
+    * A continuación creamos el servidor con la función *createServer* que es llamada cada vez que un cliente intenta conectarse al servidor. 
+    * Las variables *request* y *response* que reprensentan los datos entrantes y salientes.
+        * *request* contiene información sobre la petición como su url y para qué se hizo esa petición.
+        * Para devolver algo llamamos métodos en el objeto de respuesta *response*.
+            * El *writeHead* nos sirve para escribir las cabeceras de la respuesta, en este caso devolvemos el código de estado 200 y le comunicamos que le vamos a retornar un documento html. ```response.writeHead(200, {"Content-Type": "text/html"});``` 
+            * Con el método *write* escribimos en el body del html de respuesta. ```response.write("<h1>Hello!</h1><p>You asked for <code>" + request.url + "</code></p>");```
+            * Con el *response.end()* señalamos el final de la respuesta.
+    * Finalmente ponemos el servidor a escuchar con *server.listen* en nuestro caso en el puerto 8080 para poder acceder desde la máquina del iaas.
+    * Para parar el servidor pulsamos *ctrl+c*.
+    * Comprobamos a continuación que funciona:
+    ![ejecución con node]()
+    ![Ejemplo 1]()
+* Un servidor web real hace más que el ejemplo anterior, por ejemplo mirar el método con el que se ha hecho la petición para saber que acción realizar.
+* Para actuar como un cliente HTTP podemos usar la función *request* del módulo como hacemos en el [ejemplo 2]():
+    ```javascript
+    var http = require("http");
+    var request = http.request({
+    hostname: "eloquentjavascript.net",
+    path: "/20_node.html",
+    method: "GET",
+    headers: {Accept: "text/html"}
+    }, function(response) {
+    console.log("Server responded with status code",
+                response.statusCode);
+    });
+    request.end();
+    ```
+    * El primer argumento del *request* es un objeto en el que añadimos el nombre de la máquina, la ruta, el método que queremos usar y las cabeceras.
+    * El segundo argumento es una función que se ejecutará cada vez que se reciba una respuesta, en este caso imprimir por la terminal el código de estado.
+    ![Ejemplo 2]()
+* Para navegación segura podemos usar otro módulo de node *https* que contiene su propia función request.
 
 ### Servidor de archivos simple
+
 #### GET
 #### DELETE
 #### PUT
