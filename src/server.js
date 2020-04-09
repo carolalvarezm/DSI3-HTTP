@@ -3,9 +3,6 @@ var http = require("http"),
 
 var methods = Object.create(null);
 
-/** 
- * Esta función crea el servidor y llama a los métodos de la petición
- */
 http.createServer(function(request, response) {
     function respond(code, body, type) {
         if (!type) type = "text/plain";
@@ -20,7 +17,8 @@ http.createServer(function(request, response) {
             respond, request);
     else
         respond(405, "Method " + request.method +
-            " not allowed.");
+            " not allowed."); <<
+    << << < HEAD
 }).listen(8080);
 
 /**
@@ -100,14 +98,17 @@ methods.PUT = function(path, respond, request) {
  * Este método crea un directorio en la ruta especificada
  */
 methods.MKCOL = function(path, respond) {
-    fs.stat(path, function(error, stats) {
-        if (error && error.code == "ENOENT")
-            fs.mkdir(path, respondErrorOrNothing(respond))
-        else if (error)
-            respond(500, error.toString());
-        else if (stats.isDirectory())
-            respond(204);
-        else
-            respond(400, "bad request");
-    });
-};
+fs.stat(path, function(error, stats) {
+    if (error && error.code == "ENOENT")
+        fs.mkdir(path, respondErrorOrNothing(respond))
+    else if (error)
+        respond(500, error.toString());
+    else if (stats.isDirectory())
+        respond(204);
+    else
+        respond(400, "bad request");
+});
+}; ===
+=== =
+}).listen(8080); >>>
+>>> > Comenzando con la implementación del file server
