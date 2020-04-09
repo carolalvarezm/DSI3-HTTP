@@ -65,3 +65,14 @@ function respondErrorOrNothing(respond) {
             respond(204);
     };
 }
+
+methods.PUT = function(path, respond, request) {
+    var outStream = fs.createWriteStream(path);
+    outStream.on("error", function(error) {
+        respond(500, error.toString());
+    });
+    outStream.on("finish", function() {
+        respond(204);
+    });
+    request.pipe(outStream);
+};
