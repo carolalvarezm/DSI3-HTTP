@@ -233,8 +233,55 @@ function respondErrorOrNothing(respond) {
 ![Ejemplo con ficheros]()
 
 #### PUT
+* En el caso de PUT escribiremos en el fichero que nos pasen. No nos preocuparemos si este existe ya o no porque en ese caso lo sobreescribiremos:
+```javascript
+methods.PUT = function(path, respond, request) {
+  var outStream = fs.createWriteStream(path);
+  outStream.on("error", function(error) {
+    respond(500, error.toString());
+  });
+  outStream.on("finish", function() {
+    respond(204);
+  });
+  request.pipe(outStream);
+};
+```
+* Usamos pipe para mover los datos desde lo que entramos en la petición a una salida en este caso el fichero indicado:
+
+```javascript
+request.pipe(outStream);
+```
+* Si hay un error se responderá con el código 500:
+```javascript
+  outStream.on("error", function(error) {
+    respond(500, error.toString());
+  });
+```
+* Si se ha cargado el archivo donde vamos a escribir devolvemos un código 204.
+```javascript
+  outStream.on("finish", function() {
+    respond(204);
+  });
+```
+![Ejemplo con PUT]()
+
+Como podemos ver todas estos métodos siguen el mismo patrón para crearlos.
+* Con la herramienta CURL podemos probar los métodos anteriores haciendo peticiones a nuestro servidor:
+  * Para el GET:
+    ```
+    $ curl http://localhost:8080/file.txt
+    ```
+  * Para el PUT, donde el -d indica el texto a introducir:  
+    ```
+    $ curl -X PUT -d hello http://localhost:8080/file.txt
+    ```
+  * Para el DELETE
+    ```
+    $ curl -X DELETE http://localhost:8000/file.txt
+    ```
 
 ## Ejercicio Creating Directories
+
 ## Insomnia
 ## Documentación
 ## gulpfile
