@@ -281,6 +281,44 @@ Como podemos ver todas estos métodos siguen el mismo patrón para crearlos.
     ```
 
 ## Ejercicio Creating Directories
+* Para este ejercicio cogeremos de plantilla el del DELETE. El método MKCOL que he hecho es el siguiente:
+```javascript
+methods.MKCOL = function(path, respond) {
+    fs.stat(path, function(error, stats) {
+        if (error && error.code == "ENOENT")
+            fs.mkdir(path, respondErrorOrNothing(respond))
+        else if (error)
+            respond(500, error.toString());
+        else if (stats.isDirectory())
+            respond(204);
+        else
+            respond(400, "bad request");
+    });
+};
+```
+* Cuando el directorio no existe lo creamos con *fs.mkdir*:
+```javascript
+  if (error && error.code == "ENOENT")
+    fs.mkdir(path, respondErrorOrNothing(respond))
+```
+![Ejemplo de MKCOL con directorio]()
+* Cuando nos da algún error desconocido devolvemos el código 500:
+```javascript
+else if (error)
+  respond(500, error.toString());
+```
+* Cuando el directorio existe respondemos con el código de estado 204, para mantener la idempotencia de las operaciones.
+```javascript
+else if (stats.isDirectory())
+  respond(204);
+```
+![Prueba idempotencia]()
+* Cuando no es un directorio lo que nos pasan respondemos con el código de error 400 *bad request*
+```javascript
+else
+  respond(400, "bad request");
+```
+![Ejemplo de MKCOL con fichero]()
 
 ## Insomnia
 ## Documentación
