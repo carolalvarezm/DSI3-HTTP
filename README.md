@@ -178,7 +178,60 @@ methods.GET = function(path, respond) {
         require("mime").lookup(path));
 ```
 ![Ejemplo de GET con ficheros]()
+
 #### DELETE
+* El método DELETE lo usaremos para borrar directorios o ficheros:
+```javascript
+methods.DELETE = function(path, respond) {
+  fs.stat(path, function(error, stats) {
+    if (error && error.code == "ENOENT")
+      respond(204);
+    else if (error)
+      respond(500, error.toString());
+    else if (stats.isDirectory())
+      fs.rmdir(path, respondErrorOrNothing(respond));
+    else
+      fs.unlink(path, respondErrorOrNothing(respond));
+  });
+};
+```
+* Si no existe el fichero o directorio a eliminar, simplemente retornamos un código 204 en lugar de un error debido a que realmente el objetivo de la petición se ha cumplido. Esto lo hacemos para que el código sea idempotente, aplicar multiples veces la misma acción no produzca un resultado diferente.
+```javascript
+    if (error && error.code == "ENOENT")
+      respond(204);
+
+```
+* Devolvemos el 204 ya que no contiene ningún dato nuestra respuesta.
+* Igual que en el anterior si hay algún error que no hemos previsto devolvemos el codigo 500:
+```javascript
+    else if (error)
+      respond(500, error.toString());
+```
+* Si lo que le hemos pasado es un directorio lo eliminará con *rmdir*:
+```javascript
+    else if (stats.isDirectory())
+      fs.rmdir(path, respondErrorOrNothing(respond));
+```
+* Si es un fichero lo borrara con *unlink*:
+```javascript
+    else
+      fs.unlink(path, respondErrorOrNothing(respond));
+
+```
+* La función *respondErrorOrNothing* nos sirve para devolver como callback en el caso que queramos de devolver el código 204 o en caso de error el código 500:
+```javascript
+function respondErrorOrNothing(respond) {
+    return function(error) {
+        if (error)
+            respond(500, error.toString());
+        else
+            respond(204);
+    };
+}
+```
+![Ejemplo con Directorios]()
+![Ejemplo con ficheros]()
+
 #### PUT
 
 ## Ejercicio Creating Directories
