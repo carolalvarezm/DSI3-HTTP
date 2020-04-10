@@ -1,4 +1,7 @@
 var http = require("http");
+/*
+ * La siguiente función hace una petición básica http a un servidor
+ */
 var request = http.request({
     hostname: "eloquentjavascript.net",
     path: "/20_node.html",

@@ -3,6 +3,9 @@ var http = require("http"),
 
 var methods = Object.create(null);
 
+/** 
+ * Esta función crea el servidor y llama a los métodos de la petición
+ */
 http.createServer(function(request, response) {
     function respond(code, body, type) {
         if (!type) type = "text/plain";
@@ -20,11 +23,18 @@ http.createServer(function(request, response) {
             " not allowed.");
 }).listen(8080);
 
+/**
+ * Esta función decodifica la url para obtener la ruta de la petición
+ * @param {url} url url de la petición 
+ */
 function urlToPath(url) {
     var path = require("url").parse(url).pathname;
     return "." + decodeURIComponent(path);
 }
 
+/**
+ * Este método lista el directorio o el muestra el contenido de un archivo
+ */
 methods.GET = function(path, respond) {
     fs.stat(path, function(error, stats) {
         if (error && error.code == "ENOENT")
@@ -44,6 +54,9 @@ methods.GET = function(path, respond) {
     });
 };
 
+/**
+ * Este método elimina un archivo o directorio.
+ */
 methods.DELETE = function(path, respond) {
     fs.stat(path, function(error, stats) {
         if (error && error.code == "ENOENT")
@@ -57,6 +70,10 @@ methods.DELETE = function(path, respond) {
     });
 };
 
+/**
+ * Esta función responde con error (500) o código de estado 204
+ * @param {respond} respond objeto de respuesta 
+ */
 function respondErrorOrNothing(respond) {
     return function(error) {
         if (error)
@@ -65,7 +82,9 @@ function respondErrorOrNothing(respond) {
             respond(204);
     };
 }
-
+/**
+ * Este método escribe en un archivo especificado
+ */
 methods.PUT = function(path, respond, request) {
     var outStream = fs.createWriteStream(path);
     outStream.on("error", function(error) {
@@ -77,6 +96,9 @@ methods.PUT = function(path, respond, request) {
     request.pipe(outStream);
 };
 
+/**
+ * Este método crea un directorio en la ruta especificada
+ */
 methods.MKCOL = function(path, respond) {
     fs.stat(path, function(error, stats) {
         if (error && error.code == "ENOENT")
