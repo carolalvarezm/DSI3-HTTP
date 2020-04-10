@@ -16,11 +16,12 @@
         "url": "https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/issues"
     },
     "homepage": "https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723#readme",
-    "dependencies": { <<
-        << << < HEAD "mime": "^1.4.0"
+    "dependencies": {
+        "mime": "^1.4.0"
     }
 } ===
-=== =
+===
+=
 "gulp-shell": "^0.8.0",
 "mime": "^1.6.0",
 "nodemon": "^2.0.3"
@@ -29,4 +30,5 @@
     "gulp": "^4.0.2"
 }
 } >>>
->>> > Añadiendo gulpfile
+>>>
+> Añadiendo gulpfile
