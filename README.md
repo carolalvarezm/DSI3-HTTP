@@ -66,7 +66,7 @@ fs.readFile("file.txt", "utf8", function(error, text) {
     ![ejecución con node](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/ejemplo1.png)
 
     ![Ejemplo 1](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/ejemplo1-ejecucion.png)
-    
+
 * Un servidor web real hace más que el ejemplo anterior, por ejemplo mirar el método con el que se ha hecho la petición para saber que acción realizar.
 * Para actuar como un cliente HTTP podemos usar la función *request* del módulo como hacemos en el [ejemplo 2]():
     ```javascript
@@ -370,5 +370,21 @@ sudo apt-get install insomnia
   ![Method not allowed](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/ERROR.gif)
 
 ## Documentación
+* Instalamos documentation.js con npm:
+  ```
+  $ npm install -g documentation
+  ```
+* Para construir ficheros html con la documentación:
+```
+$ documentation build src/** -f html -o docs
+```
+* Para desplegar estos en un puerto abierto en la máquina del iaas:
+```
+documentation serve --port 8081 src/*.js
+```
 
+![Ejemplo de como hacerla](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/Documentacion.png)
+![Documentación html](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/DOC.png)
+
+La documentación está subida a la rama de documentación
 ## gulpfile
