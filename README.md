@@ -62,8 +62,11 @@ fs.readFile("file.txt", "utf8", function(error, text) {
     * Finalmente ponemos el servidor a escuchar con *server.listen* en nuestro caso en el puerto 8080 para poder acceder desde la máquina del iaas.
     * Para parar el servidor pulsamos *ctrl+c*.
     * Comprobamos a continuación que funciona:
-    ![ejecución con node]()
-    ![Ejemplo 1]()
+
+    ![ejecución con node](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/ejemplo1.png)
+
+    ![Ejemplo 1](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/ejemplo1-ejecucion.png)
+
 * Un servidor web real hace más que el ejemplo anterior, por ejemplo mirar el método con el que se ha hecho la petición para saber que acción realizar.
 * Para actuar como un cliente HTTP podemos usar la función *request* del módulo como hacemos en el [ejemplo 2]():
     ```javascript
@@ -81,7 +84,8 @@ fs.readFile("file.txt", "utf8", function(error, text) {
     ```
     * El primer argumento del *request* es un objeto en el que añadimos el nombre de la máquina, la ruta, el método que queremos usar y las cabeceras.
     * El segundo argumento es una función que se ejecutará cada vez que se reciba una respuesta, en este caso imprimir por la terminal el código de estado.
-    ![Ejemplo 2]()
+
+    ![Ejemplo 2](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/Ejemplo2.png)
 * Para navegación segura podemos usar otro módulo de node *https* que contiene su propia función request.
 
 ### Servidor de archivos simple
@@ -170,14 +174,16 @@ methods.GET = function(path, respond) {
           respond(200, files.join("\n"));
     });
 ```
-![Ejemplo de GET con directorios]()
+
+![Ejemplo de GET con directorios](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/GET_directorios.png)
 * Si le hemos pasado un archivo creamos un stream de lectura y mostramos el contenido, además de devolver el código de estado 200.
 ```javascript
     else
     respond(200, fs.createReadStream(path),
         require("mime").lookup(path));
 ```
-![Ejemplo de GET con ficheros]()
+
+![Ejemplo de GET con ficheros](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/GET_archivo.png)
 
 #### DELETE
 * El método DELETE lo usaremos para borrar directorios o ficheros:
@@ -229,8 +235,10 @@ function respondErrorOrNothing(respond) {
     };
 }
 ```
-![Ejemplo con Directorios]()
-![Ejemplo con ficheros]()
+
+![Ejemplo con Directorios](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/DELETE_Directorios.png)
+
+![Ejemplo con ficheros](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/DELETE_ARCHIVOS.png)
 
 #### PUT
 * En el caso de PUT escribiremos en el fichero que nos pasen. No nos preocuparemos si este existe ya o no porque en ese caso lo sobreescribiremos:
@@ -263,7 +271,8 @@ request.pipe(outStream);
     respond(204);
   });
 ```
-![Ejemplo con PUT]()
+
+![Ejemplo con PUT](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/PUT.png)
 
 Como podemos ver todas estos métodos siguen el mismo patrón para crearlos.
 * Con la herramienta CURL podemos probar los métodos anteriores haciendo peticiones a nuestro servidor:
@@ -301,7 +310,8 @@ methods.MKCOL = function(path, respond) {
   if (error && error.code == "ENOENT")
     fs.mkdir(path, respondErrorOrNothing(respond))
 ```
-![Ejemplo de MKCOL con directorio]()
+
+![Ejemplo de MKCOL con directorio](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/MKCOL.gif)
 * Cuando nos da algún error desconocido devolvemos el código 500:
 ```javascript
 else if (error)
@@ -312,13 +322,15 @@ else if (error)
 else if (stats.isDirectory())
   respond(204);
 ```
-![Prueba idempotencia]()
+
+![Prueba idempotencia](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/Prueba_idempotente.png)
 * Cuando no es un directorio lo que nos pasan respondemos con el código de error 400 *bad request*
 ```javascript
 else
   respond(400, "bad request");
 ```
-![Ejemplo de MKCOL con fichero]()
+
+![Ejemplo de MKCOL con fichero](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/Ejemplo_MKCOL_Fichero.png)
 
 ## Insomnia
 * Insomnia es una herramienta muy útil para realizar peticiones http. Para instalarlo debemos introducir lo siguiente:
@@ -330,33 +342,85 @@ sudo apt-get install insomnia
 ```
 * Una vez instalada podemos definir variables para el entorno de manera que lo podamos utilizar después, vamos a hacer esto con nuestra url:
 
-![Configurando insomnia]()
+![Configurando insomnia](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/Configurando_insomnia.png)
 
 * He hecho pruebas con todos los métodos que hemos hecho en el servidor:
   * GET
   
-  ![GET con Directorios]()
+  ![GET con Directorios](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/GET_DIRECTORIO.gif)
 
-  ![GET con ficheros]()
+  ![GET con ficheros](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/GET_FICHERO.gif)
 
   * DELETE
 
-  ![DELETE]()
+  ![DELETE](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/DELETE.gif)
 
   * PUT
 
-  ![PUT]()
+  ![PUT](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/PUT.gif)
 
   * MKCOL
 
-  ![MKCOL con directorios]()
+  ![MKCOL con directorios](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/MKCOL_Directorio.gif)
 
-  ![MKCOL fallo con ficheros]()
+  ![MKCOL fallo con ficheros](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/MKCOL_Fallo.gif)
 
   * Métodos no implementados
 
-  ![Method not allowed]()
+  ![Method not allowed](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/ERROR.gif)
 
 ## Documentación
+* Instalamos documentation.js con npm:
+  ```
+  $ npm install -g documentation
+  ```
+* Para construir ficheros html con la documentación:
+  ```
+  $ documentation build src/** -f html -o docs
+  ```
+* Para desplegar estos en un puerto abierto en la máquina del iaas:
+  ```
+  documentation serve --port 8081 src/*.js
+  ```
 
+![Ejemplo de como hacerla](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/Documentacion.png)
+![Documentación html](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/DOC.png)
+
+* La documentación está subida a la rama de doc.
 ## gulpfile
+* Instalamos gulp:
+  ```
+  $ npm install --global gulp-cli
+  ```
+* Creamos un fichero *gulpfile.js* donde pondremos las tareas para probar el servidor:
+  ```javascript
+  var gulp = require("gulp");
+  var shell = require("gulp-shell");
+
+  gulp.task("pre-install", shell.task([
+        "npm i -g gulp static-server",
+        "npm install -g nodemon",
+        "npm install -g gulp-shell"
+  ]));
+
+  gulp.task("serve", shell.task("nodemon src/server.js"));
+
+  gulp.task("lint", shell.task("jshint *.js **/*.js"));
+
+  gulp.task("get", shell.task("curl -v http://localhost:8000/src/file.txt"));
+  gulp.task("put", shell.task("curl -v -X PUT -d 'Bye world!' http://localhost:8000/src/file.txt"));
+  gulp.task("delete", shell.task("curl -v -X DELETE  http://localhost:8000/src/file.txt"));
+  gulp.task("mkcol", shell.task("curl -v -X MKCOL http://localhost:8000/src/ejemplo"));
+
+  gulp.task("doc", shell.task("documentation build src/** -f html -o docs"));
+  gulp.task("docserver", shell.task("documentation serve --port 8081 src/*.js"));
+
+
+  ```
+  * Como podemos ver hemos añadido una tarea para lanzar el servidor y otras para probar todos los tipos de peticiones que tenemos implementados.
+
+  * También hemos añadido una tarea que se ocupe de la documentación.
+
+  ![Ejemplo de servidor con gulp](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/GULP.png)
+  ![Ejemplo de Put con gulp](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/GULP.gif)
+  
