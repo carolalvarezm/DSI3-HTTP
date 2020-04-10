@@ -375,16 +375,52 @@ sudo apt-get install insomnia
   $ npm install -g documentation
   ```
 * Para construir ficheros html con la documentación:
-```
-$ documentation build src/** -f html -o docs
-```
+  ```
+  $ documentation build src/** -f html -o docs
+  ```
 * Para desplegar estos en un puerto abierto en la máquina del iaas:
-```
-documentation serve --port 8081 src/*.js
-```
+  ```
+  documentation serve --port 8081 src/*.js
+  ```
 
 ![Ejemplo de como hacerla](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/Documentacion.png)
 ![Documentación html](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/DOC.png)
 
-La documentación está subida a la rama de documentación
+* La documentación está subida a la rama de doc.
 ## gulpfile
+* Instalamos gulp:
+  ```
+  $ npm install --global gulp-cli
+  ```
+* Creamos un fichero *gulpfile.js* donde pondremos las tareas para probar el servidor:
+  ```javascript
+  var gulp = require("gulp");
+  var shell = require("gulp-shell");
+
+  gulp.task("pre-install", shell.task([
+        "npm i -g gulp static-server",
+        "npm install -g nodemon",
+        "npm install -g gulp-shell"
+  ]));
+
+  gulp.task("serve", shell.task("nodemon src/server.js"));
+
+  gulp.task("lint", shell.task("jshint *.js **/*.js"));
+
+  gulp.task("get", shell.task("curl -v http://localhost:8000/src/file.txt"));
+  gulp.task("put", shell.task("curl -v -X PUT -d 'Bye world!' http://localhost:8000/src/file.txt"));
+  gulp.task("delete", shell.task("curl -v -X DELETE  http://localhost:8000/src/file.txt"));
+  gulp.task("mkcol", shell.task("curl -v -X MKCOL http://localhost:8000/src/ejemplo"));
+
+  gulp.task("doc", shell.task("documentation build src/** -f html -o docs"));
+  gulp.task("docserver", shell.task("documentation serve --port 8081 src/*.js"));
+
+
+  ```
+  * Como podemos ver hemos añadido una tarea para lanzar el servidor y otras para probar todos los tipos de peticiones que tenemos implementados.
+
+  * También hemos añadido una tarea que se ocupe de la documentación.
+
+  ![Ejemplo de servidor con gulp](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/GULP.png)
+  ![Ejemplo de Put con gulp](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/GULP.gif)
+  
