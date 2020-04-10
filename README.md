@@ -62,8 +62,11 @@ fs.readFile("file.txt", "utf8", function(error, text) {
     * Finalmente ponemos el servidor a escuchar con *server.listen* en nuestro caso en el puerto 8080 para poder acceder desde la máquina del iaas.
     * Para parar el servidor pulsamos *ctrl+c*.
     * Comprobamos a continuación que funciona:
+
     ![ejecución con node](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/ejemplo1.png)
+
     ![Ejemplo 1](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/ejemplo1-ejecucion.png)
+    
 * Un servidor web real hace más que el ejemplo anterior, por ejemplo mirar el método con el que se ha hecho la petición para saber que acción realizar.
 * Para actuar como un cliente HTTP podemos usar la función *request* del módulo como hacemos en el [ejemplo 2]():
     ```javascript
@@ -81,6 +84,7 @@ fs.readFile("file.txt", "utf8", function(error, text) {
     ```
     * El primer argumento del *request* es un objeto en el que añadimos el nombre de la máquina, la ruta, el método que queremos usar y las cabeceras.
     * El segundo argumento es una función que se ejecutará cada vez que se reciba una respuesta, en este caso imprimir por la terminal el código de estado.
+
     ![Ejemplo 2](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/Ejemplo2.png)
 * Para navegación segura podemos usar otro módulo de node *https* que contiene su propia función request.
 
@@ -170,6 +174,7 @@ methods.GET = function(path, respond) {
           respond(200, files.join("\n"));
     });
 ```
+
 ![Ejemplo de GET con directorios](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/GET_directorios.png)
 * Si le hemos pasado un archivo creamos un stream de lectura y mostramos el contenido, además de devolver el código de estado 200.
 ```javascript
@@ -177,6 +182,7 @@ methods.GET = function(path, respond) {
     respond(200, fs.createReadStream(path),
         require("mime").lookup(path));
 ```
+
 ![Ejemplo de GET con ficheros](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/GET_archivo.png)
 
 #### DELETE
@@ -229,7 +235,9 @@ function respondErrorOrNothing(respond) {
     };
 }
 ```
+
 ![Ejemplo con Directorios](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/DELETE_Directorios.png)
+
 ![Ejemplo con ficheros](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/DELETE_ARCHIVOS.png)
 
 #### PUT
@@ -263,6 +271,7 @@ request.pipe(outStream);
     respond(204);
   });
 ```
+
 ![Ejemplo con PUT](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/PUT.png)
 
 Como podemos ver todas estos métodos siguen el mismo patrón para crearlos.
@@ -301,6 +310,7 @@ methods.MKCOL = function(path, respond) {
   if (error && error.code == "ENOENT")
     fs.mkdir(path, respondErrorOrNothing(respond))
 ```
+
 ![Ejemplo de MKCOL con directorio](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/MKCOL.gif)
 * Cuando nos da algún error desconocido devolvemos el código 500:
 ```javascript
@@ -312,12 +322,14 @@ else if (error)
 else if (stats.isDirectory())
   respond(204);
 ```
+
 ![Prueba idempotencia](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/Prueba_idempotente.png)
 * Cuando no es un directorio lo que nos pasan respondemos con el código de error 400 *bad request*
 ```javascript
 else
   respond(400, "bad request");
 ```
+
 ![Ejemplo de MKCOL con fichero](https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/blob/master/Capturas_Readme/Ejemplo_MKCOL_Fichero.png)
 
 ## Insomnia
