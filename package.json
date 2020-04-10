@@ -1,0 +1,22 @@
+{
+  "name": "p3-t1-c3-http",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723.git"
+  },
+  "author": "Carolina Álvarez Martín",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/issues"
+  },
+  "homepage": "https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723#readme",
+  "dependencies": {
+    "mime": "^1.4.0"
+  }
+}
