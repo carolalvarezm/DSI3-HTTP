@@ -2,7 +2,7 @@
     "name": "p3-t1-c3-http",
     "version": "1.0.0",
     "description": "",
-    "main": "index.js",
+    "main": "server.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -16,7 +16,17 @@
         "url": "https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723/issues"
     },
     "homepage": "https://github.com/ULL-ESIT-DSI-1920/p3-t1-c3-http-alu0100944723#readme",
-    "dependencies": {
-        "mime": "^1.4.0"
+    "dependencies": { <<
+        << << < HEAD "mime": "^1.4.0"
     }
+} ===
+=== =
+"gulp-shell": "^0.8.0",
+"mime": "^1.6.0",
+"nodemon": "^2.0.3"
+},
+"devDependencies": {
+    "gulp": "^4.0.2"
 }
+} >>>
+>>> > Añadiendo gulpfile
