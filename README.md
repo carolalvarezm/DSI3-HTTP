@@ -321,5 +321,42 @@ else
 ![Ejemplo de MKCOL con fichero]()
 
 ## Insomnia
+* Insomnia es una herramienta muy útil para realizar peticiones http. Para instalarlo debemos introducir lo siguiente:
+```
+echo "deb https://dl.bintray.com/getinsomnia/Insomnia /" \ | sudo tee -a /etc/apt/sources.list.d/insomnia.list
+wget --quiet -O - https://insomnia.rest/keys/debian-public.key.asc \ | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install insomnia
+```
+* Una vez instalada podemos definir variables para el entorno de manera que lo podamos utilizar después, vamos a hacer esto con nuestra url:
+
+![Configurando insomnia]()
+
+* He hecho pruebas con todos los métodos que hemos hecho en el servidor:
+  * GET
+  
+  ![GET con Directorios]()
+
+  ![GET con ficheros]()
+
+  * DELETE
+
+  ![DELETE]()
+
+  * PUT
+
+  ![PUT]()
+
+  * MKCOL
+
+  ![MKCOL con directorios]()
+
+  ![MKCOL fallo con ficheros]()
+
+  * Métodos no implementados
+
+  ![Method not allowed]()
+
 ## Documentación
+
 ## gulpfile
